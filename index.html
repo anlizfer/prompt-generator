@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PROMPT GENERATOR</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <style>
+        .btn-prompt {
+            width: 100%;
+            height: 80px;
+        }
+
+        .result-prompt {
+            width: 100%;
+            background-color: #efefef;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 9px;
+            min-height: 250px;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" style="padding-bottom: 85px;">
+
+        <div class="row">
+            <div class="col mt-5">
+                <h1 class="text-center">PROMPT GENERATOR</h1>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-3">
+                <button class="btn btn-success btn-prompt">AVATAR</button>
+            </div>
+            <div class="col-3">
+                <button class="btn btn-warning btn-prompt" disabled>LANDING PAGE</button>
+            </div>
+            <div class="col-3">
+                <button class="btn btn-danger btn-prompt" disabled>SALES PAGE</button>
+            </div>
+            <div class="col-3">
+                <button class="btn btn-info btn-prompt" disabled>SALES PAGE</button>
+            </div>
+
+        </div>
+
+
+        <hr>
+
+        <div class="row  mt-5">
+            <div class="col">
+                <h3 class="text-center" id="tipoPrompt">AVATAR</h3>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-md-6">
+
+                    <form action="/" id="formPrompt1">
+                        <div class="mb-3">
+                            <label for="" class="form-label">¿Escribe el avatar del nicho de mercado?*</label>
+                            <textarea class="form-control" id="respuesta0" rows="3" required></textarea>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="" class="form-label">¿Escribe el nicho de mercado?*</label>
+                            <textarea class="form-control" id="respuesta1" rows="3" required></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="" class="form-label">¿Escribe el dolor que tiene el mercado?*</label>
+                            <textarea class="form-control" id="respuesta2" rows="3" required></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="" class="form-label">¿Escribe la transformación que busca tu nicho de
+                                mercado?*</label>
+                            <textarea class="form-control" id="respuesta3" rows="3" required></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="" class="form-label">¿Escribe el listado de emociones que tiene el
+                                mercado?*</label>
+                            <textarea class="form-control" id="respuesta4" rows="3" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-success">GENERAR PROMPT</button>
+                        <button type="button" class="btn btn-warning" id="BtnPrompt">NUEVO</button>
+
+                    </form>
+
+
+                </div>
+                <div class="col-md-6">
+                    <h4>Resultado Prompt:</h4>
+                    <div class="result-prompt" id="promptResult">
+                        <small><i>Escribe las preguntas necesarias para generar el prompt.</i></small>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+
+    <script>
+
+        /*
+        AVATAR
+        Ejecutivos que queren mejorar su apariencia para lograr una mejor posición laboral.
+
+        NICHO
+        Moda, asesoría de imágen
+
+        DOLOR
+        No sabe cómo vestirse, nada le queda bien y ve cómo está perdiendo oportunidades.
+
+        TRANSFORMACION
+        Tener autoestima y proyector una imágen profesional más fuerte y confiable
+
+        EMOCIONES
+        Vergüenza, miedo de no verse bien
+
+        */
+
+        let propmtTemplate=`Dame un perfil detallado con datos demográficos y psicográficos de @respuesta0, el nicho de @respuesta1, que tienen puntos de dolor como: @respuesta2, y busca transformación como: @respuesta3, además tiene las siguientes emociones: @respuesta4. Dame edades, sexo, clientes de habla hispana, y dame posibles nombres de esa persona basado en los nombres populares en año de su nacimiento`;
+        let form=document.getElementById("formPrompt1");
+        form.addEventListener("submit",(e)=>{
+            e.preventDefault();
+            const respuesta0=document.getElementById("respuesta0").value;
+            const respuesta1=document.getElementById("respuesta1").value;
+            const respuesta2=document.getElementById("respuesta2").value;
+            const respuesta3=document.getElementById("respuesta3").value;
+            const respuesta4=document.getElementById("respuesta4").value;
+
+            let nuevoPromtp=propmtTemplate.replace('@respuesta0',respuesta1.trim())
+            nuevoPromtp=nuevoPromtp.replace('@respuesta1',respuesta2.trim())
+            nuevoPromtp=nuevoPromtp.replace('@respuesta2',respuesta2.trim())
+            nuevoPromtp=nuevoPromtp.replace('@respuesta3',respuesta3.trim())
+            nuevoPromtp=nuevoPromtp.replace('@respuesta4',respuesta4.trim())
+
+            document.getElementById("promptResult").innerHTML=`<p>${nuevoPromtp}</p>`;            
+        });
+
+        let BtnPrompt=document.getElementById("BtnPrompt");
+
+        BtnPrompt.addEventListener("click",(e)=>{
+            e.preventDefault();
+            document.getElementById("respuesta0").value="";
+            document.getElementById("respuesta1").value="";
+            document.getElementById("respuesta2").value="";
+            document.getElementById("respuesta3").value="";
+            document.getElementById("respuesta4").value="";
+            document.getElementById("promptResult").innerHTML=`<small><i>Escribe las preguntas necesarias para generar el prompt.</i></small>`;
+        });
+
+    </script>
+</body>
+
+</html>
